@@ -27,7 +27,7 @@ services:
 
   # 3. Твой веб-сервер Nginx (Фронтенд)
   web-site:
-    image: my-custom-site:latest
+    build: .
     container_name: my-docker-site
     ports:
       - "9090:80"
