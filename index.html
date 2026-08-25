@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head> 
-	<meta charset="UTF-8">
-	<title>DevOps Lab</title>
-	<style>
-	 body { background-color: #1e1e2e; color: #cdd6f4; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } 
-	 .container { text-align: center; border: 2px solid #89b4fa; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(137, 180, 250, 0.2); }
-	 h1 { color: #a6e3a1; }
-	 span { color: #f38ba8; }
-	</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Мой Docker Сайт с БД</title>
+    <style>
+        body { background: #1e1e24; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .box { background: #2a2a35; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h1 { color: #4caf50; }
+        #counter { font-size: 24px; font-weight: bold; color: #00bcd4; }
+    </style>
 </head>
 <body>
-	<div class="container">
-	 <h1>МАГИЯ ВЕБХУКОВ: ДЕПЛОЙ БЕЗ РУК!</h1>
-	 <p>Пользователь: <span>leon</span></p>
-	 <p>ОС: Arch Linux + KDE Plasma</p>
-	 <p>Статус деплоя: Автоматический через Compose v2 + Webhook</p>
-	</div>
+    <div class="box">
+        <h1>Поздравляю, инфраструктура работает!</h1>
+        <p>Этот сайт крутится в Nginx внутри Docker.</p>
+        <p>Бэкенд на Python FastAPI считает визиты и сохраняет их в PostgreSQL.</p>
+        <p>Количество визитов из базы данных: <span id="counter">Загрузка...</span></p>
+    </div>
+
+    <script>
+        // Этот скрипт просто берет цифру с порта 8000 и вставляет на страницу
+        fetch('http://' + window.location.hostname + ':8000/api/visit')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('counter').innerText = data.total_visits[0];
+            })
+            .catch(err => {
+                document.getElementById('counter').innerText = "Ошибка связи с бэкендом";
+                console.error(err);
+            });
+    </script>
 </body>
 </html>

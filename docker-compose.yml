@@ -1,7 +1,40 @@
+version: '3.8'
+
 services:
+  # 1. Сервис Базы Данных
+  db:
+    image: postgres:15-alpine
+    container_name: my-postgres-db
+    environment:
+      POSTGRES_USER: leon_user
+      POSTGRES_PASSWORD: super_secret_pass
+      POSTGRES_DB: site_analytics
+    volumes:
+      - pgdata:/var/data/db
+    # Порты наружу НЕ пробрасываем! БД доступна только внутри сети Docker.
+
+  # 2. Сервис Бэкенда (Python)
+  backend:
+    build: ./backend
+    container_name: my-python-backend
+    environment:
+      DB_HOST: db
+      DB_NAME: site_analytics
+      DB_USER: leon_user
+      DB_PASSWORD: super_secret_pass
+    depends_on:
+      - db
+
+  # 3. Твой веб-сервер Nginx (Фронтенд)
   web-site:
     image: my-custom-site:latest
     container_name: my-docker-site
     ports:
       - "9090:80"
     restart: always
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+
