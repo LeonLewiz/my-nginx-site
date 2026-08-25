@@ -18,7 +18,7 @@ services:
     build: ./backend
     container_name: my-python-backend
     ports:
-        - "8000:8000"
+        - "8081:8000"
     environment:
       DB_HOST: db
       DB_NAME: site_analytics

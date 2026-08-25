@@ -20,7 +20,7 @@
 
     <script>
         // Этот скрипт просто берет цифру с порта 8000 и вставляет на страницу
-        fetch('http://' + window.location.hostname + ':8000/api/visit')
+        fetch('http://' + window.location.hostname + ':8081/api/visit')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('counter').innerText = data.total_visits[0];
