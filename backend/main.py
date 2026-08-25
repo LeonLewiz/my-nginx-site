@@ -1,9 +1,19 @@
 import os
 import time
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 
 app = FastAPI()
+
+# Разрешаем браузерам делать запросы к нашему API со всех портов и IP
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Разрешить любые адреса
+    allow_credentials=True,
+    allow_methods=["*"], # Разрешить любые методы (GET, POST)
+    allow_headers=["*"], # Разрешить любые заголовки
+)
 
 def get_db_connection():
     return psycopg2.connect(
@@ -30,12 +40,11 @@ conn.close()
 def visit():
     conn = get_db_connection()
     cur = conn.cursor()
-    
     cur.execute("INSERT INTO visits DEFAULT VALUES;")
     conn.commit()
     
     cur.execute("SELECT COUNT(*) FROM visits;")
-    count = cur.fetchone()[0] 
+    count = cur.fetchone()[0] # Явно вытаскиваем число из ответа базы
     
     cur.close()
     conn.close()
