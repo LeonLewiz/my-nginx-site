@@ -1,0 +1,7 @@
+services:
+  web-site:
+    image: my-custom-site:latest
+    container_name: my-docker-site
+    ports:
+      - "9090:80"
+    restart: always
