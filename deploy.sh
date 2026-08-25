@@ -8,4 +8,4 @@ git pull origin main
 docker compose build --no-cache
 docker compose up -d --build --force-recreate
 
-echo " Полный деплой (Nginx + Python + Postgres) завершен!"
+echo " Полный деплой (Nginx + Python + Postgres)."
