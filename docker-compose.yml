@@ -19,10 +19,10 @@ services:
     ports:
         - "8081:8000"
     environment:
-      DB_HOST: db
+      DB_HOST: ${DB_HOST}
       DB_NAME: site_analytics
-      DB_USER: leon_user
-      DB_PASSWORD: super_secret_pass
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - db
 
