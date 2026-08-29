@@ -19,7 +19,7 @@ jobs:
 
       - name: Build an image.
         run: |
-          docker build --no-cache -t my-test-image ./backend
+          docker build -t my-test-image ./backend
 
       - name: Send to github packages.
         run: |
