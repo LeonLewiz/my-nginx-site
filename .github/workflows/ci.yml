@@ -25,5 +25,8 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           # Выводит токен гитхаба через echo и через | передает в след. команду, которая логинит меня в github packages.
-          docker push ghcr.io/leonlewiz/my-nginx-site/my-test-image:latest ./backend
+          docker tag my-test-image ghcr.io/leonlewiz/my-test-image:latest
+          # Метка чтоб пуш нормально работал, ругается что ее нет.
+          
+          docker push ghcr.io/leonlewiz/my-nginx-site/my-test-image:latest
           # Пушит образ докера на склад, {{ github.repository }} (подставляет имя) не сработал, в нике есть заглавные буквы из-за этого ошибка.
