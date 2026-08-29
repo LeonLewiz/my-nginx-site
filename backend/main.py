@@ -44,7 +44,7 @@ def visit():
     conn.commit()
     
     cur.execute("SELECT COUNT(*) FROM visits;")
-    count = cur.fetchone()[0] # Явно вытаскиваем число из ответа базы
+    count = cur.fetchone()[0] # Вытаскиваем число из ответа базы
     
     cur.close()
     conn.close()
