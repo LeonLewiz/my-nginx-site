@@ -30,3 +30,14 @@ jobs:
           
           docker push ghcr.io/leonlewiz/my-nginx-site/my-test-image:latest
           # Пушит образ докера на склад, {{ github.repository }} (подставляет имя) не сработал, в нике есть заглавные буквы из-за этого ошибка.
+
+      - name: Deploy to VM with ssh.
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 192.168.13.130       # IP твоей виртуалки
+          username: leonlewiz        # юзер на виртуалке (например leon)
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/html/my-nginx-site
+            docker pull ghcr.io/leonlewiz/my-nginx-site/my-test-image:latest
+            docker compose up -d --force-recreate
