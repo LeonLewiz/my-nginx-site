@@ -21,14 +21,20 @@ jobs:
         run: |
           docker build -t my-test-image ./backend
 
+          
+      - name: Get version from git
+        run: |
+          echo "VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
+          ## Подгрузить версию в environment гитхаба.
+
       - name: Send to github packages.
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           # Выводит токен гитхаба через echo и через | передает в след. команду, которая логинит меня в github packages.
-          docker tag my-test-image ghcr.io/leonlewiz/my-nginx-site/my-test-image
+          docker tag my-test-image ghcr.io/leonlewiz/my-nginx-site/my-test-image:${VERSION}
           # Метка чтоб пуш нормально работал, ругается что ее нет.
           
-          docker push ghcr.io/leonlewiz/my-nginx-site/my-test-image:latest
+          docker push ghcr.io/leonlewiz/my-nginx-site/my-test-image:${VERSION}
           # Пушит образ докера на склад, {{ github.repository }} (подставляет имя) не сработал, в нике есть заглавные буквы из-за этого ошибка.
 
       - name: Deploy
