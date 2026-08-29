@@ -34,4 +34,5 @@ jobs:
       - name: Deploy
         run: |
           cd /var/www/html/my-nginx-site
+          docker compose pull
           docker compose up -d --force-recreate
