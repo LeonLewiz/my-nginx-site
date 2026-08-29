@@ -16,3 +16,7 @@ jobs:
         run: |
           echo "CI настроен."
           ls -la
+
+      - name: Build an image.
+        run: |
+          docker build -t my-test-image ./backend
