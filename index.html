@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой Docker Сайт с БД</title>
+    <style>
+        body { background: #1e1e24; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .box { background: #2a2a35; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h1 { color: #4caf50; }
+        #counter { font-size: 24px; font-weight: bold; color: #00bcd4; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Поздравляю, инфраструктура работает!</h1>
+        <p>Этот сайт крутится в Nginx внутри Docker.</p>
+        <p>Бэкенд на Python FastAPI считает визиты и сохраняет их в PostgreSQL.</p>
+        <p>Количество визитов из базы данных: <span id="counter">Загрузка...</span></p>
+    </div>
+
+    <script>
+        // Этот скрипт просто берет цифру с порта 8000 и вставляет на страницу
+        fetch('http://' + window.location.hostname + ':8081/api/visit')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('counter').innerText = data.total_visits;
+            })
+            .catch(err => {
+                document.getElementById('counter').innerText = "Ошибка связи с бэкендом";
+                console.error(err);
+            });
+    </script>
+</body>
+</html>
