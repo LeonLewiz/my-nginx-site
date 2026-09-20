@@ -1,0 +1,40 @@
+name: build-push
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  REGISTRY: cr.yandex/crpk5978o767co0bur2k  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: site
+            context: ./site
+          - name: backend
+            context: ./backend
+          - name: backup
+            context: ./backup
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to YC Container Registry
+        uses: yc-actions/yc-cr-login@v3
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_KEY }}
+
+      - name: Build and push
+        run: |
+          IMAGE=${{ env.REGISTRY }}/${{ matrix.name }}:sha-${GITHUB_SHA::7}
+          docker build -t $IMAGE ${{ matrix.context }}
+          docker push $IMAGE
+          echo "Pushed $IMAGE"
