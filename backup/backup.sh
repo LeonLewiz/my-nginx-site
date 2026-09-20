@@ -1,6 +1,7 @@
-
 #!/bin/sh
 set -e
+
+export PGPASSWORD="$DB_PASSWORD"
 
 STAMP=$(date +%Y-%m-%d-%H%M)
 FILE="/tmp/db-$STAMP.sql.gz"
