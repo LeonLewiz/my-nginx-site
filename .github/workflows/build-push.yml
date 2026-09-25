@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 env:
-  REGISTRY: cr.yandex/crpk5978o767co0bur2k  
+  REGISTRY: cr.yandex/crpa6bbfvbcf1j4ie61a
 
 jobs:
   build:
